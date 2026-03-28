@@ -1,0 +1,52 @@
+==========================================================================
+                CIFAR-10 k-NN TEST SENARYOLARI VE MANTIKLARI
+==========================================================================
+
+BU DOSYADAKİ SENARYOLAR, ÖDEV-1 KAPSAMINDA ALGORİTMANIN FARKLI
+PARAMETRELERLE NASIL DAVRANDIĞINI GÖZLEMLEMEK İÇİN HAZIRLANMIŞTIR.
+
+--------------------------------------------------------------------------
+SENARYO 1: "EN YAKIN KOMŞU İLKESİ" (Gürültüye Hassas, Hızlı Karar)
+--------------------------------------------------------------------------
+Girdi Seçimi:
+- Mesafe Türü: L2 (Öklid)
+- k Değeri: 1
+
+Açıklama:
+Test resmine en çok benzeyen (mesafesi en küçük olan) tek bir resme bakılır.
+Eğer en yakın resim "Gemi" ise, makine doğrudan "Gemi" der.
+Hızlıdır ancak eğitim verisindeki tek bir hatalı etiket sonucu bozabilir.
+
+--------------------------------------------------------------------------
+SENARYO 2: "DEMOKRATİK OYLAMA" (Daha Kararlı ve Güvenilir)
+--------------------------------------------------------------------------
+Girdi Seçimi:
+- Mesafe Türü: L2 (Öklid)
+- k Değeri: 5 (veya 3)
+
+Açıklama:
+En yakın 5 komşu bulunur ve "çoğunluk ne diyorsa o" mantığıyla karar verilir.
+Örneğin; 3 komşu "Uçak", 2 komşu "Kuş" diyorsa, sonuç "Uçak" olur.
+Bu yöntem, tekil hataların (outliers) genel sonucu etkilemesini engeller.
+
+--------------------------------------------------------------------------
+SENARYO 3: "MATEMATİKSEL YAKLAŞIM FARKI" (L1 vs L2 Karşılaştırması)
+--------------------------------------------------------------------------
+Girdi Seçimi:
+- Deney A: L1 (Manhattan), k=3
+- Deney B: L2 (Öklid), k=3
+
+Açıklama:
+L1 mesafesi pikseller arasındaki mutlak farkları toplarken; L2 mesafesi
+farkların karesini aldığı için büyük piksel farklarını daha çok cezalandırır.
+Aynı 'k' değerinde farklı mesafelerin farklı sonuçlar üretip üretmediği
+bu senaryo ile test edilir.
+
+--------------------------------------------------------------------------
+KRİTİK BİLGİ: NEDEN 'k' DEĞERİNİ TEK SAYI SEÇİYORUZ?
+--------------------------------------------------------------------------
+Eğer k değerini çift sayı (örneğin 2) seçersek ve komşulardan biri "Kedi",
+diğeri "Köpek" çıkarsa oylamada eşitlik (tie) olur. k değerini 1, 3, 5 gibi
+tek sayılar seçerek her zaman bir kazananın çıkmasını garantiliyoruz.
+
+==========================================================================
